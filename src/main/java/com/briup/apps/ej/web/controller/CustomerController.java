@@ -4,6 +4,7 @@ import com.briup.apps.ej.bean.Customer;
 import com.briup.apps.ej.service.ICustomerService;
 import com.briup.apps.ej.utils.Message;
 import com.briup.apps.ej.utils.MessageUtil;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +18,9 @@ public class CustomerController {
     @Autowired
     private ICustomerService customerService;
 
+
     @GetMapping("findAll")
+    @ApiOperation("查询所有顾客信息")
     public Message findAll(){
         List<Customer> list = customerService.findAll();
         return MessageUtil.success("success",list);
