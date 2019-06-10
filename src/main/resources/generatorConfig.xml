@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE generatorConfiguration
+  PUBLIC "-//mybatis.org//DTD MyBatis Generator Configuration 1.0//EN"
+  "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
+<!-- mybatis-generator的核心配置文件 -->
+<generatorConfiguration>
+	
+  <classPathEntry location="C:\briup\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar" />
+  <context id="DB2Tables" targetRuntime="MyBatis3">
+
+    <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
+        connectionURL="jdbc:mysql://134.175.154.93:3306/ej1.0"
+        userId="briup"
+        password="briup">
+      <!--产生selectByPrimaryKey-->
+      <property name="useInformationSchema" value="true" />
+    </jdbcConnection>
+    
+
+	<!--指定生成的类型为java类型，避免数据库中number等类型字段 -->
+    <javaTypeResolver >
+      <property name="forceBigDecimals" value="false" />
+    </javaTypeResolver>
+
+	<!--自动生成的实体的存放包路径 -->
+    <javaModelGenerator targetPackage="com.briup.apps.ej.bean" targetProject="./src/main/java">
+      <property name="enableSubPackages" value="true" />
+      <property name="trimStrings" value="true" />
+    </javaModelGenerator>
+
+	<!--自动生成的*Mapper.xml文件存放路径 -->
+    <sqlMapGenerator targetPackage="mapper"  targetProject="./src/main/resources">
+      <property name="enableSubPackages" value="true" />
+    </sqlMapGenerator>
+
+	<!--自动生成的*Mapper.java存放路径 -->
+    <javaClientGenerator type="XMLMAPPER" targetPackage="com.briup.apps.ej.dao"  targetProject="./src/main/java">
+      <property name="enableSubPackages" value="true" />
+    </javaClientGenerator>
+
+
+	<!-- 映射配置 -->
+    <table tableName="ej_category" domainObjectName="Category" ></table>
+    <table tableName="ej_product" domainObjectName="Product" ></table>
+    <table tableName="ej_waiter" domainObjectName="Waiter" ></table>
+    <table tableName="ej_customer" domainObjectName="Customer" ></table>
+    <table tableName="ej_address" domainObjectName="Address" ></table>
+    <table tableName="ej_order" domainObjectName="Order" ></table>
+    <table tableName="ej_order_line" domainObjectName="OrderLine" ></table>
+    <table tableName="ej_comment" domainObjectName="Comment" ></table>
+
+
+	<!--
+	 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
+	-->
+	
+ 
+ 
+  </context>
+</generatorConfiguration>
