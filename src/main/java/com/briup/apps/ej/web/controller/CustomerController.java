@@ -7,11 +7,9 @@ import com.briup.apps.ej.utils.MessageUtil;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -39,14 +37,14 @@ public class CustomerController {
 
     @GetMapping("deleteById")
     @ApiOperation("通过ID删除")
-    public Message deleteById(Long id) throws Exception{
+    public Message deleteById(@NotNull @RequestParam("id") Long id) throws Exception{
         customerService.deleteById(id);
         return MessageUtil.success("删除成功");
     }
 
     @PostMapping("batchDelete")
     @ApiOperation("批量删除顾客信息")
-    public Message batchDelete(@NotNull(message = "ids不能为空") long[] ids) throws Exception{
+    public Message batchDelete(long[] ids) throws Exception{
         customerService.batchDelete(ids);
         return MessageUtil.success("批量删除成功");
     }
