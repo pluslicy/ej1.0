@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.apps.ej.dao.extend.OrderExtendMapper">
+
+  <!--id,orderTime,total,cutomer_id,waiter_id,address_id-->
+  <select id="query" resultMap="orderExtendResultMap">
+    select
+        o.id as o_id,
+        o.order_time,
+        o.total,
+        o.customer_id,
+        o.waiter_id,
+        o.address_id,
+        c.id as c_id,
+        c.realname as c_realname,
+        c.telephone as c_telephone,
+        w.id as w_id,
+        w.realname as w_realname,
+        w.telephone as w_telephone,
+        a.id as a_id,
+        a.province,
+        a.city,
+        a.area,
+        a.address,
+        a.telephone
+	from ej_order o,ej_customer c,ej_waiter w,ej_address a
+    <where>
+      o.customer_id = c.id
+      AND o.waiter_id = w.id
+      AND o.address_id = a.id
+      <if test="customerId!=null">
+        AND c.id = #{customerId}
+      </if>
+      <if test="waiterId != null">
+        AND w.id = #{waiterId}
+      </if>
+    </where>
+
+  </select>
+
+  <resultMap
+          id="orderExtendResultMap"
+          type="com.briup.apps.ej.bean.extend.OrderExtend">
+    <!--基本属性的映射已经继承了-->
+    <id column="o_id" jdbcType="BIGINT" property="id" />
+    <result column="order_time" jdbcType="BIGINT" property="orderTime" />
+    <result column="total" jdbcType="DOUBLE" property="total" />
+    <result column="customer_id" jdbcType="BIGINT" property="customerId" />
+    <result column="waiter_id" jdbcType="BIGINT" property="waiterId" />
+    <result column="address_id" jdbcType="BIGINT" property="addressId" />
+    <!--还有四个关联属性-->
+    <association property="customer" javaType="com.briup.apps.ej.bean.Customer">
+      <id column="c_id" jdbcType="BIGINT" property="id" />
+      <result column="c_telephone" jdbcType="VARCHAR" property="telephone" />
+      <result column="c_realname" jdbcType="VARCHAR" property="realname" />
+    </association>
+    <association property="waiter" javaType="com.briup.apps.ej.bean.Waiter">
+      <id column="w_id" jdbcType="BIGINT" property="id" />
+      <result column="w_telephone" jdbcType="VARCHAR" property="telephone" />
+      <result column="w_realname" jdbcType="VARCHAR" property="realname" />
+    </association>
+    <association property="address" javaType="com.briup.apps.ej.bean.Address">
+      <id column="a_id" jdbcType="BIGINT" property="id" />
+      <result column="province" jdbcType="VARCHAR" property="province" />
+      <result column="city" jdbcType="VARCHAR" property="city" />
+      <result column="area" jdbcType="VARCHAR" property="area" />
+      <result column="address" jdbcType="VARCHAR" property="address" />
+      <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+    </association>
+  </resultMap>
+</mapper>
