@@ -1,5 +1,7 @@
 package com.briup.apps.ej.bean;
 
+import io.swagger.annotations.ApiParam;
+
 public class OrderLine {
     /**
      *
@@ -17,6 +19,7 @@ public class OrderLine {
      *
      * @mbg.generated Mon Jun 10 11:19:31 CST 2019
      */
+    @ApiParam(value = "服务数量",required = true)
     private Integer number;
 
     /**
@@ -26,6 +29,7 @@ public class OrderLine {
      *
      * @mbg.generated Mon Jun 10 11:19:31 CST 2019
      */
+    @ApiParam(value = "服务",required = true)
     private Long productId;
 
     /**

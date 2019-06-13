@@ -2,7 +2,11 @@ package com.briup.apps.ej.service.impl;
 
 import com.briup.apps.ej.bean.Order;
 import com.briup.apps.ej.bean.OrderExample;
+import com.briup.apps.ej.bean.OrderLine;
 import com.briup.apps.ej.bean.extend.OrderExtend;
+import com.briup.apps.ej.bean.vm.OrderAndOrderLineVM;
+import com.briup.apps.ej.bean.vm.OrderVM;
+import com.briup.apps.ej.dao.OrderLineMapper;
 import com.briup.apps.ej.dao.OrderMapper;
 import com.briup.apps.ej.dao.extend.OrderExtendMapper;
 import com.briup.apps.ej.service.IOrderService;
@@ -19,7 +23,13 @@ public class OrderServiceImpl implements IOrderService {
     private OrderMapper orderMapper;
     @Resource
     private OrderExtendMapper orderExtendMapper;
+    @Resource
+    private OrderLineMapper orderLineMapper;
 
+    @Override
+    public List<OrderVM> queryBasic(Long customerId, Long waiterId) {
+        return orderExtendMapper.queryBasic(customerId, waiterId);
+    }
 
     @Override
     public List<OrderExtend> query(Long customerId, Long waiterId) {
@@ -33,14 +43,20 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public void saveOrUpdate(Order order) throws Exception {
-        if(order.getId()!=null){
-            orderMapper.updateByPrimaryKey(order);
-        } else {
-            // 保存订单的时候自动将当前时间设置为订单时间
-            long time = new Date().getTime();
-            order.setOrderTime(time);
-            orderMapper.insert(order);
+    public void save(OrderAndOrderLineVM order) throws Exception {
+        // 先保存订单
+        Order o = new Order();
+        o.setOrderTime(new Date().getTime());
+        o.setTotal(100.0);
+        o.setCustomerId(order.getCustomerId());
+        o.setAddressId(order.getAddressId());
+        orderMapper.insert(o);
+        // 再保存订单项
+        List<OrderLine> list = order.getOrderLines();
+        for(OrderLine ol : list){
+            // 维护订单项与订单之间的关系
+            ol.setOrderId(o.getId());
+            orderLineMapper.insert(ol);
         }
     }
 

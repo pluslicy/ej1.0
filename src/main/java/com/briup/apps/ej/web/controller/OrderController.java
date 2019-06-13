@@ -2,6 +2,8 @@ package com.briup.apps.ej.web.controller;
 
 import com.briup.apps.ej.bean.Order;
 import com.briup.apps.ej.bean.extend.OrderExtend;
+import com.briup.apps.ej.bean.vm.OrderAndOrderLineVM;
+import com.briup.apps.ej.bean.vm.OrderVM;
 import com.briup.apps.ej.service.IOrderService;
 import com.briup.apps.ej.utils.Message;
 import com.briup.apps.ej.utils.MessageUtil;
@@ -23,6 +25,13 @@ public class OrderController {
     @Autowired
     private IOrderService orderService;
 
+    @GetMapping("queryBasic")
+    @ApiOperation("查询订单信息，返回列表数据")
+    public Message queryBasic(Long customerId,Long waiterId){
+        List<OrderVM> list = orderService.queryBasic(customerId,waiterId);
+        return MessageUtil.success("success",list);
+    }
+
     @GetMapping("query")
     @ApiOperation("查询订单信息，并且订单级联关键的属性")
     public Message query(Long customerId,Long waiterId){
@@ -37,10 +46,10 @@ public class OrderController {
         return MessageUtil.success("success",list);
     }
 
-    @PostMapping("saveOrUpdate")
-    @ApiOperation("保存或者更新订单信息")
-    public Message saveOrUpdate(@Valid @ModelAttribute Order order) throws Exception{
-        orderService.saveOrUpdate(order);
+    @PostMapping("save")
+    @ApiOperation("保存订单信息")
+    public Message saveOrUpdate(@Valid @ModelAttribute OrderAndOrderLineVM order) throws Exception{
+        orderService.save(order);
         return MessageUtil.success("操作成功");
     }
 
