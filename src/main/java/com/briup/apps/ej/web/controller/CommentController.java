@@ -1,10 +1,11 @@
 package com.briup.apps.ej.web.controller;
 
-import com.briup.apps.ej.bean.Product;
-import com.briup.apps.ej.service.IProductService;
+import com.briup.apps.ej.bean.Comment;
+import com.briup.apps.ej.service.ICommentService;
 import com.briup.apps.ej.utils.Message;
 import com.briup.apps.ej.utils.MessageUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,23 +16,22 @@ import java.util.List;
 
 /**
  * @program: ej
- * @description: 产品控制器类
+ * @description: 评论控制器类
  * @author: charles
- * @create: 2019-06-10 17:52
+ * @create: 2019-09-06 15:18
  **/
-@Api(description = "产品管理相关接口")
+@Api(description = "评论管理相关接口")
 @Validated
 @RestController
-@RequestMapping("/product")
-public class ProductController {
-
+@RequestMapping("/comment")
+public class CommentController {
     @Autowired
-    private IProductService productService;
+    private ICommentService commentService;
 
     @GetMapping("findAll")
+    @ApiOperation("查询所有评论信息")
     public Message findAll(){
-        List<Product> list = productService.findAll();
+        List<Comment> list = commentService.findAll();
         return MessageUtil.success("success",list);
     }
-
 }
