@@ -8,11 +8,9 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.List;
 
@@ -30,10 +28,36 @@ public class AddressController {
     @Autowired
     private IAddressService addressService;
 
-    @GetMapping("findAll")
-    @ApiOperation("查询所有地址信息")
+    @GetMapping("findByCustomerId")
+    @ApiOperation("通过顾客ID查询地址信息")
     public Message findByCustomerId(@NotNull @RequestParam("id") Long id){
         List<Address> list = addressService.findByCustomerId(id);
         return MessageUtil.success("success",list);
+    }
+    @GetMapping("findAll")
+    @ApiOperation("查询地址信息")
+    public Message findAll(){
+        List<Address> list = addressService.findAll();
+        return MessageUtil.success("success",list);
+    }
+    @PostMapping("saveOrUpdate")
+    @ApiOperation("保存或者更新地址信息")
+    public Message saveOrUpdate(@Valid @ModelAttribute Address address) throws Exception{
+        addressService.saveOrUpdate(address);
+        return MessageUtil.success("操作成功");
+    }
+
+    @GetMapping("deleteById")
+    @ApiOperation("通过ID删除地址信息")
+    public Message deleteById(@NotNull @RequestParam("id") Long id) throws Exception{
+        addressService.deleteById(id);
+        return MessageUtil.success("删除成功");
+    }
+
+    @PostMapping("batchDelete")
+    @ApiOperation("批量删除地址信息")
+    public Message batchDelete(long[] ids) throws Exception{
+        addressService.batchDelete(ids);
+        return MessageUtil.success("批量删除成功");
     }
 }
