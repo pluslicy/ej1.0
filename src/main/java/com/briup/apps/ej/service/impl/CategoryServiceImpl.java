@@ -24,4 +24,31 @@ public class CategoryServiceImpl implements ICategoryService {
     public List<Category> findAll() {
         return categoryMapper.selectByExample(new CategoryExample());
     }
+
+    @Override
+    public void saveOrUpdate(Category category) throws Exception {
+        if(category.getId()!=null){
+            categoryMapper.updateByPrimaryKey(category);
+        } else {
+//            address.setStatus("正常");
+            categoryMapper.insert(category);
+        }
+    }
+
+    @Override
+    public void deleteById(long id) throws Exception {
+        Category address = categoryMapper.selectByPrimaryKey(id);
+        if(address == null){
+            throw new Exception("要删除的分类信息不存在");
+        }
+        categoryMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public void batchDelete(long[] ids) throws Exception {
+        for(long id :ids){
+            categoryMapper.deleteByPrimaryKey(id);
+        }
+    }
+
 }

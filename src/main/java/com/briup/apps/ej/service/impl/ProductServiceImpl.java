@@ -25,4 +25,30 @@ public class ProductServiceImpl implements IProductService {
         ProductExample example = new ProductExample();
         return productMapper.selectByExample(example);
     }
+
+    @Override
+    public void saveOrUpdate(Product product) throws Exception {
+        if(product.getId()!=null){
+            productMapper.updateByPrimaryKey(product);
+        } else {
+//            address.setStatus("正常");
+            productMapper.insert(product);
+        }
+    }
+
+    @Override
+    public void deleteById(long id) throws Exception {
+        Product product = productMapper.selectByPrimaryKey(id);
+        if(product == null){
+            throw new Exception("要删除的产品信息不存在");
+        }
+        productMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public void batchDelete(long[] ids) throws Exception {
+        for(long id :ids){
+            productMapper.deleteByPrimaryKey(id);
+        }
+    }
 }

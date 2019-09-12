@@ -24,4 +24,30 @@ public class CommentServiceImpl implements ICommentService {
     public List<Comment> findAll() {
         return commentMapper.selectByExample(new CommentExample());
     }
+
+    @Override
+    public void saveOrUpdate(Comment comment) throws Exception {
+        if(comment.getId()!=null){
+            commentMapper.updateByPrimaryKey(comment);
+        } else {
+//            address.setStatus("正常");
+            commentMapper.insert(comment);
+        }
+    }
+
+    @Override
+    public void deleteById(long id) throws Exception {
+        Comment comment = commentMapper.selectByPrimaryKey(id);
+        if(comment == null){
+            throw new Exception("要删除的评论信息不存在");
+        }
+        commentMapper.deleteByPrimaryKey(id);
+    }
+
+    @Override
+    public void batchDelete(long[] ids) throws Exception {
+        for(long id :ids){
+            commentMapper.deleteByPrimaryKey(id);
+        }
+    }
 }

@@ -8,10 +8,10 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import java.util.List;
 
 /**
@@ -33,5 +33,25 @@ public class CommentController {
     public Message findAll(){
         List<Comment> list = commentService.findAll();
         return MessageUtil.success("success",list);
+    }
+    @PostMapping("saveOrUpdate")
+    @ApiOperation("保存或者更新评论信息")
+    public Message saveOrUpdate(@Valid @ModelAttribute Comment comment) throws Exception{
+        commentService.saveOrUpdate(comment);
+        return MessageUtil.success("操作成功");
+    }
+
+    @GetMapping("deleteById")
+    @ApiOperation("通过ID删除评论信息")
+    public Message deleteById(@NotNull @RequestParam("id") Long id) throws Exception{
+        commentService.deleteById(id);
+        return MessageUtil.success("删除成功");
+    }
+
+    @PostMapping("batchDelete")
+    @ApiOperation("批量删除评论信息")
+    public Message batchDelete(long[] ids) throws Exception{
+        commentService.batchDelete(ids);
+        return MessageUtil.success("批量删除成功");
     }
 }

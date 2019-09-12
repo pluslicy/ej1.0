@@ -4,8 +4,8 @@
   "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 <!-- mybatis-generator的核心配置文件 -->
 <generatorConfiguration>
-	
-  <classPathEntry location="C:\briup\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar" />
+
+  <classPathEntry location="D:\gg\maven\apache-maven-3.3.9\repository\mysql\mysql-connector-java\8.0.15\mysql-connector-java-8.0.15.jar" />
   <context id="DB2Tables" targetRuntime="MyBatis3">
 
     <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
@@ -15,7 +15,7 @@
       <!--产生selectByPrimaryKey-->
       <property name="useInformationSchema" value="true" />
     </jdbcConnection>
-    
+
 
 	<!--指定生成的类型为java类型，避免数据库中number等类型字段 -->
     <javaTypeResolver >
@@ -53,8 +53,8 @@
 	<!--
 	 mvn -Dmybatis.generator.overwrite=true mybatis-generator:generate
 	-->
-	
- 
- 
+
+
+
   </context>
 </generatorConfiguration>
