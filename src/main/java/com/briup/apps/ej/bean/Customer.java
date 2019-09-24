@@ -45,6 +45,8 @@ public class Customer {
      *
      * @mbg.generated Mon Jun 10 11:19:31 CST 2019
      */
+    @ApiParam(value = "姓名",required = true)
+    @NotBlank(message = "姓名不能为空")
     private String realname;
 
     /**

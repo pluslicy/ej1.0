@@ -28,9 +28,13 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public void saveOrUpdate(Category category) throws Exception {
         if(category.getId()!=null){
-            categoryMapper.updateByPrimaryKey(category);
+            Category c = categoryMapper.selectByPrimaryKey(category.getId());
+            if(c != null){
+                categoryMapper.updateByPrimaryKey(category);
+            } else {
+                throw new Exception("要更新的顾客信息不存在");
+            }
         } else {
-//            address.setStatus("正常");
             categoryMapper.insert(category);
         }
     }

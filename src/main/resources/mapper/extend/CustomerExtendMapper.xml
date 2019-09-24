@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.apps.ej.dao.extend.CustomerExtendMapper">
+    <select id="query" resultType="com.briup.apps.ej.bean.Customer">
+        select *
+        from ej_customer As c
+        <where>
+            <if test="customer.realname != null">
+                c.realname  like concat('%',#{customer.realname},'%')
+            </if>
+            <if test="customer.telephone != null">
+                AND c.telephone like concat('%',#{customer.telephone},'%')
+            </if>
+            <if test="customer.status != null">
+                AND c.status like concat('%',#{customer.status} ,'%')
+            </if>
+        </where>
+        limit ${page*pageSize},${pageSize}
+    </select>
+    <select id="count" resultType="long">
+        select count(*)
+        from ej_customer AS c
+        <where>
+            <if test="customer.realname != null">
+                c.realname  like concat('%',#{customer.realname},'%')
+            </if>
+            <if test="customer.telephone != null">
+                AND c.telephone like concat('%',#{customer.telephone},'%')
+            </if>
+            <if test="customer.status != null">
+                AND c.status like concat('%',#{customer.status} ,'%')
+            </if>
+        </where>
+    </select>
+</mapper>

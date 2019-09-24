@@ -4,8 +4,10 @@ import com.briup.apps.ej.bean.Customer;
 import com.briup.apps.ej.service.ICustomerService;
 import com.briup.apps.ej.utils.Message;
 import com.briup.apps.ej.utils.MessageUtil;
+import com.briup.apps.ej.utils.PageVM;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -35,6 +37,21 @@ public class CustomerController {
     public Message saveOrUpdate(@Valid @ModelAttribute Customer customer) throws Exception{
         customerService.saveOrUpdate(customer);
         return MessageUtil.success("操作成功");
+    }
+
+    @PostMapping("query")
+    @ApiOperation("分页查询顾客信息")
+    public Message query(@NotNull @RequestParam("page") Integer page,
+                         @NotNull @RequestParam("pageSize") Integer pageSize,
+                         @ApiParam("姓名") @RequestParam(required = false) String realname,
+                         @ApiParam("手机号") @RequestParam(required = false) String telephone,
+                         @ApiParam("状态") @RequestParam(required = false) String status) throws Exception{
+        Customer customer = new Customer();
+        customer.setRealname(realname);
+        customer.setTelephone(telephone);
+        customer.setStatus(status);
+        PageVM<Customer> pageVM = customerService.query(page,pageSize,customer);
+        return MessageUtil.success("操作成功",pageVM);
     }
 
     @GetMapping("deleteById")
