@@ -17,18 +17,10 @@ public class CustomerServiceImpl implements ICustomerService {
     private CustomerMapper customerMapper;
     @Resource
     private CustomerExtendMapper customerExtendMapper;
-
     @Override
     public List<Customer> findAll() {
         CustomerExample example = new CustomerExample();
         return customerMapper.selectByExample(example);
-    }
-
-    @Override
-    public PageVM<Customer> query(int page, int pageSize, Customer customer) {
-        List<Customer> list = customerExtendMapper.query(page,pageSize,customer);
-        long count = customerExtendMapper.count(customer);
-        return new PageVM<>(page,pageSize,count,list);
     }
 
     @Override
@@ -40,7 +32,12 @@ public class CustomerServiceImpl implements ICustomerService {
             customerMapper.insert(customer);
         }
     }
-
+    @Override
+    public PageVM<Customer> query(int page, int pageSize, Customer customer) {
+        List<Customer> list = customerExtendMapper.query(page,pageSize,customer);
+        long count = customerExtendMapper.count(customer);
+        return new PageVM<>(page,pageSize,count,list);
+    }
 
     @Override
     public void deleteById(long id) throws Exception {

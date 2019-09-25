@@ -3,10 +3,13 @@ package com.briup.apps.ej.service.impl;
 import com.briup.apps.ej.bean.Product;
 import com.briup.apps.ej.bean.ProductExample;
 import com.briup.apps.ej.dao.ProductMapper;
+import com.briup.apps.ej.dao.extend.ProductExtendMapper;
 import com.briup.apps.ej.service.IProductService;
+import com.briup.apps.ej.utils.PageVM;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -17,9 +20,10 @@ import java.util.List;
  **/
 @Service
 public class ProductServiceImpl implements IProductService {
-    @Autowired
+    @Resource
     private ProductMapper productMapper;
-
+    @Resource
+    private ProductExtendMapper productExtendMapper;
     @Override
     public List<Product> findAll() {
         ProductExample example = new ProductExample();
@@ -50,5 +54,12 @@ public class ProductServiceImpl implements IProductService {
         for(long id :ids){
             productMapper.deleteByPrimaryKey(id);
         }
+    }
+
+    @Override
+    public PageVM<Product> query(int page, int pageSize, Product product) {
+        List<Product> list = productExtendMapper.query(page,pageSize,product);
+        long count = productExtendMapper.count(product);
+        return new PageVM<>(page,pageSize,count,list);
     }
 }

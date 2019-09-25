@@ -4,8 +4,10 @@ import com.briup.apps.ej.bean.Waiter;
 import com.briup.apps.ej.service.IWaiterService;
 import com.briup.apps.ej.utils.Message;
 import com.briup.apps.ej.utils.MessageUtil;
+import com.briup.apps.ej.utils.PageVM;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -53,5 +55,21 @@ public class WaiterController {
     public Message batchDelete(long[] ids) throws Exception{
         waiterService.batchDelete(ids);
         return MessageUtil.success("批量删除成功");
+    }
+    @PostMapping("query")
+    @ApiOperation("分页查询员工信息")
+    public Message query(@NotNull @RequestParam("page") Integer page,
+                         @NotNull @RequestParam("pageSize") Integer pageSize,
+                         @ApiParam("电话") @RequestParam(required = false) String telephone,
+                         @ApiParam("姓名") @RequestParam(required = false) String realname,
+                         @ApiParam("卡号") @RequestParam(required = false) String idcard,
+                         @ApiParam("状态") @RequestParam(required = false) String status) throws Exception{
+        Waiter waiter = new Waiter();
+        waiter.setTelephone(telephone);
+        waiter.setRealname(realname);
+        waiter.setIdcard(idcard);
+        waiter.setStatus(status);
+        PageVM<Waiter> pageVM = waiterService.query(page,pageSize,waiter);
+        return MessageUtil.success("操作成功",pageVM);
     }
 }

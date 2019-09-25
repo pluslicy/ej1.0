@@ -4,8 +4,10 @@ import com.briup.apps.ej.bean.Product;
 import com.briup.apps.ej.service.IProductService;
 import com.briup.apps.ej.utils.Message;
 import com.briup.apps.ej.utils.MessageUtil;
+import com.briup.apps.ej.utils.PageVM;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -53,6 +55,22 @@ public class ProductController {
     public Message batchDelete(long[] ids) throws Exception{
         productService.batchDelete(ids);
         return MessageUtil.success("批量删除成功");
+    }
+    @PostMapping("query")
+    @ApiOperation("分页查询产品信息")
+    public Message query(@NotNull @RequestParam("page") Integer page,
+                         @NotNull @RequestParam("pageSize") Integer pageSize,
+                         @ApiParam("产品名称") @RequestParam(required = false) String name,
+                         @ApiParam("产品描述") @RequestParam(required = false) String description,
+                         @ApiParam("产品价格") @RequestParam(required = false) Double price,
+                         @ApiParam("产品状态") @RequestParam(required = false) String status) throws Exception{
+        Product product = new Product();
+        product.setName(name);
+        product.setDescription(description);
+        product.setPrice(price);
+        product.setStatus(status);
+        PageVM<Product> pageVM = productService.query(page,pageSize,product);
+        return MessageUtil.success("操作成功",pageVM);
     }
 
 }

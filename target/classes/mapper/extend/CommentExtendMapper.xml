@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.briup.apps.ej.dao.extend.CommentExtendMapper">
+    <select id="query" resultType="com.briup.apps.ej.bean.Comment">
+        select *
+        from ej_comment As c
+        <where>
+            <if test="comment.content != null">
+                c.realname  like concat('%',#{comment.content},'%')
+            </if>
+            <if test="comment.commentTime != null">
+                AND c.telephone like concat('%',#{comment.content},'%')
+            </if>
+        </where>
+        limit ${page*pageSize},${pageSize}
+    </select>
+    <select id="count" resultType="long">
+        select count(*)
+        from ej_comment As c
+        <where>
+            <if test="comment.content != null">
+                c.realname  like concat('%',#{comment.content},'%')
+            </if>
+            <if test="comment.commentTime != null">
+                AND c.telephone like concat('%',#{comment.content},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

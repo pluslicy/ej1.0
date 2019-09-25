@@ -3,7 +3,9 @@ package com.briup.apps.ej.service.impl;
 import com.briup.apps.ej.bean.Category;
 import com.briup.apps.ej.bean.CategoryExample;
 import com.briup.apps.ej.dao.CategoryMapper;
+import com.briup.apps.ej.dao.extend.CategoryExtendMapper;
 import com.briup.apps.ej.service.ICategoryService;
+import com.briup.apps.ej.utils.PageVM;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,7 +21,8 @@ import java.util.List;
 public class CategoryServiceImpl implements ICategoryService {
     @Resource
     private CategoryMapper categoryMapper;
-
+    @Resource
+    private CategoryExtendMapper categoryExtendMapper;
     @Override
     public List<Category> findAll() {
         return categoryMapper.selectByExample(new CategoryExample());
@@ -28,13 +31,9 @@ public class CategoryServiceImpl implements ICategoryService {
     @Override
     public void saveOrUpdate(Category category) throws Exception {
         if(category.getId()!=null){
-            Category c = categoryMapper.selectByPrimaryKey(category.getId());
-            if(c != null){
-                categoryMapper.updateByPrimaryKey(category);
-            } else {
-                throw new Exception("要更新的顾客信息不存在");
-            }
+            categoryMapper.updateByPrimaryKey(category);
         } else {
+//            address.setStatus("正常");
             categoryMapper.insert(category);
         }
     }
@@ -53,6 +52,13 @@ public class CategoryServiceImpl implements ICategoryService {
         for(long id :ids){
             categoryMapper.deleteByPrimaryKey(id);
         }
+    }
+
+    @Override
+    public PageVM<Category> query(int page, int pageSize, Category category) {
+        List<Category> list = categoryExtendMapper.query(page,pageSize,category);
+        long count = categoryExtendMapper.count(category);
+        return new PageVM<>(page,pageSize,count,list);
     }
 
 }

@@ -3,7 +3,9 @@ package com.briup.apps.ej.service.impl;
 import com.briup.apps.ej.bean.Comment;
 import com.briup.apps.ej.bean.CommentExample;
 import com.briup.apps.ej.dao.CommentMapper;
+import com.briup.apps.ej.dao.extend.CommentExtendMapper;
 import com.briup.apps.ej.service.ICommentService;
+import com.briup.apps.ej.utils.PageVM;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,7 +21,8 @@ import java.util.List;
 public class CommentServiceImpl implements ICommentService {
     @Resource
     private CommentMapper commentMapper;
-
+    @Resource
+    private CommentExtendMapper commentExtendMapper;
     @Override
     public List<Comment> findAll() {
         return commentMapper.selectByExample(new CommentExample());
@@ -49,5 +52,12 @@ public class CommentServiceImpl implements ICommentService {
         for(long id :ids){
             commentMapper.deleteByPrimaryKey(id);
         }
+    }
+
+    @Override
+    public PageVM<Comment> query(int page, int pageSize, Comment comment) {
+        List<Comment> list = commentExtendMapper.query(page,pageSize,comment);
+        long count = commentExtendMapper.count(comment);
+        return new PageVM<>(page,pageSize,count,list);
     }
 }

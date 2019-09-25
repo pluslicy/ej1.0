@@ -7,8 +7,11 @@ import com.briup.apps.ej.bean.vm.OrderVM;
 import com.briup.apps.ej.service.IOrderService;
 import com.briup.apps.ej.utils.Message;
 import com.briup.apps.ej.utils.MessageUtil;
+import com.briup.apps.ej.utils.PageVM;
+import com.sun.org.apache.xpath.internal.operations.Or;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -65,5 +68,17 @@ public class OrderController {
     public Message batchDelete(long[] ids) throws Exception{
         orderService.batchDelete(ids);
         return MessageUtil.success("批量删除成功");
+    }
+    @PostMapping("queryPage")
+    @ApiOperation("分页查询订单信息")
+    public Message queryPage(@NotNull @RequestParam("page") Integer page,
+                         @NotNull @RequestParam("pageSize") Integer pageSize,
+                         @ApiParam("订单时间") @RequestParam(required = false) Long orderTime,
+                         @ApiParam("订单数量") @RequestParam(required = false) Double total) throws Exception{
+        Order order = new Order();
+        order.setOrderTime(orderTime);
+        order.setTotal(total);
+        PageVM<Order> pageVM = orderService.queryPage(page,pageSize,order);
+        return MessageUtil.success("操作成功",pageVM);
     }
 }

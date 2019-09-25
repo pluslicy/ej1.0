@@ -1,0 +1,4 @@
+-------------------------------------------------------------------------------
+Test set: com.briup.apps.ej.EjApplicationTests
+-------------------------------------------------------------------------------
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 5.71 s - in com.briup.apps.ej.EjApplicationTests

@@ -4,8 +4,10 @@ import com.briup.apps.ej.bean.Category;
 import com.briup.apps.ej.service.ICategoryService;
 import com.briup.apps.ej.utils.Message;
 import com.briup.apps.ej.utils.MessageUtil;
+import com.briup.apps.ej.utils.PageVM;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -53,5 +55,17 @@ public class CategoryController {
     public Message batchDelete(long[] ids) throws Exception{
         categoryService.batchDelete(ids);
         return MessageUtil.success("批量删除成功");
+    }
+    @PostMapping("query")
+    @ApiOperation("分页查询分类信息")
+    public Message query(@NotNull @RequestParam("page") Integer page,
+                         @NotNull @RequestParam("pageSize") Integer pageSize,
+                         @ApiParam("名称") @RequestParam(required = false) String name,
+                         @ApiParam("数量") @RequestParam(required = false) Integer num) throws Exception {
+        Category category = new Category();
+        category.setName(name);
+        category.setNum(num);
+        PageVM<Category> pageVM = categoryService.query(page, pageSize, category);
+        return MessageUtil.success("操作成功", pageVM);
     }
 }

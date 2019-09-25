@@ -1,11 +1,14 @@
 package com.briup.apps.ej.web.controller;
 
 import com.briup.apps.ej.bean.Address;
+import com.briup.apps.ej.bean.extend.AddressExtend;
 import com.briup.apps.ej.service.IAddressService;
 import com.briup.apps.ej.utils.Message;
 import com.briup.apps.ej.utils.MessageUtil;
+import com.briup.apps.ej.utils.PageVM;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -40,6 +43,12 @@ public class AddressController {
         List<Address> list = addressService.findAll();
         return MessageUtil.success("success",list);
     }
+    @GetMapping("findAllAddressWithCustomer")
+    @ApiOperation("查询地址和顾客信息")
+    public Message findAllAddressWithCustomer(){
+        List<AddressExtend> list = addressService.findAllAddressWithCustomer();
+        return MessageUtil.success("success",list);
+    }
     @PostMapping("saveOrUpdate")
     @ApiOperation("保存或者更新地址信息")
     public Message saveOrUpdate(@Valid @ModelAttribute Address address) throws Exception{
@@ -59,5 +68,19 @@ public class AddressController {
     public Message batchDelete(long[] ids) throws Exception{
         addressService.batchDelete(ids);
         return MessageUtil.success("批量删除成功");
+    }
+    @PostMapping("query")
+    @ApiOperation("分页查询地址信息")
+    public Message query(@NotNull @RequestParam("page") Integer page,
+                         @NotNull @RequestParam("pageSize") Integer pageSize,
+                         @ApiParam("省") @RequestParam(required = false) String province,
+                         @ApiParam("城市") @RequestParam(required = false) String city,
+                         @ApiParam("区域") @RequestParam(required = false) String area) throws Exception{
+        Address address = new Address();
+        address.setProvince(province);
+        address.setCity(city);
+        address.setArea(area);
+        PageVM<Address> pageVM = addressService.query(page,pageSize,address);
+        return MessageUtil.success("操作成功",pageVM);
     }
 }

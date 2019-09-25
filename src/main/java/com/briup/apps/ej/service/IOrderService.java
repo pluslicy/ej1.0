@@ -4,6 +4,7 @@ import com.briup.apps.ej.bean.Order;
 import com.briup.apps.ej.bean.extend.OrderExtend;
 import com.briup.apps.ej.bean.vm.OrderAndOrderLineVM;
 import com.briup.apps.ej.bean.vm.OrderVM;
+import com.briup.apps.ej.utils.PageVM;
 
 import java.util.List;
 
@@ -19,4 +20,6 @@ public interface IOrderService {
     void deleteById(long id) throws Exception;
 
     void batchDelete(long[] ids) throws Exception;
+
+    PageVM<Order> queryPage(int page, int pageSize, Order order);
 }

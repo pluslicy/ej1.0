@@ -1,11 +1,3 @@
-/**
- * Project Name:erp
- * File Name:CustomerPageVM.java
- * Package Name:com.briup.apps.erp.vm
- * Date:2018年9月8日上午9:56:30
- * Copyright (c) 2018, chenzhou1025@126.com All Rights Reserved.
- *
-*/
 
 package com.briup.apps.ej.utils;
 /**
@@ -14,9 +6,9 @@ package com.briup.apps.ej.utils;
  * Reason:	 TODO ADD REASON. <br/>
  * Date:     2018年9月8日 上午9:56:30 <br/>
  * @author   lichunyu
- * @version  
+ * @version
  * @since    JDK 1.6
- * @see 	 
+ * @see
  */
 
 import java.util.List;
@@ -26,11 +18,11 @@ public class PageVM<E> {
 	private Integer pageSize;
 	private Long total;
 	private List<E> list;
-	
+
 	public PageVM() {
 
 	}
-	
+
 	public PageVM(Integer page, Integer pageSize, Long total, List<E> list) {
 		super();
 		this.page = page;

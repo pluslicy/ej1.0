@@ -4,6 +4,7 @@ import com.briup.apps.ej.bean.Customer;
 import com.briup.apps.ej.service.ICustomerService;
 import com.briup.apps.ej.utils.Message;
 import com.briup.apps.ej.utils.MessageUtil;
+
 import com.briup.apps.ej.utils.PageVM;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -39,6 +40,13 @@ public class CustomerController {
         return MessageUtil.success("操作成功");
     }
 
+    @GetMapping("deleteById")
+    @ApiOperation("通过ID删除")
+    public Message deleteById(@NotNull @RequestParam("id") Long id) throws Exception{
+        customerService.deleteById(id);
+        return MessageUtil.success("删除成功");
+    }
+
     @PostMapping("query")
     @ApiOperation("分页查询顾客信息")
     public Message query(@NotNull @RequestParam("page") Integer page,
@@ -52,13 +60,6 @@ public class CustomerController {
         customer.setStatus(status);
         PageVM<Customer> pageVM = customerService.query(page,pageSize,customer);
         return MessageUtil.success("操作成功",pageVM);
-    }
-
-    @GetMapping("deleteById")
-    @ApiOperation("通过ID删除")
-    public Message deleteById(@NotNull @RequestParam("id") Long id) throws Exception{
-        customerService.deleteById(id);
-        return MessageUtil.success("删除成功");
     }
 
     @PostMapping("batchDelete")

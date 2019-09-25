@@ -3,7 +3,9 @@ package com.briup.apps.ej.service.impl;
 import com.briup.apps.ej.bean.Waiter;
 import com.briup.apps.ej.bean.WaiterExample;
 import com.briup.apps.ej.dao.WaiterMapper;
+import com.briup.apps.ej.dao.extend.WaiterExtendMapper;
 import com.briup.apps.ej.service.IWaiterService;
+import com.briup.apps.ej.utils.PageVM;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -19,7 +21,8 @@ import java.util.List;
 public class WaiterServiceImpl implements IWaiterService {
     @Resource
     private WaiterMapper waiterMapper;
-
+    @Resource
+    private WaiterExtendMapper waiterExtendMapper;
     @Override
     public List<Waiter> findAll() {
         return waiterMapper.selectByExample(new WaiterExample());
@@ -49,5 +52,12 @@ public class WaiterServiceImpl implements IWaiterService {
         for(long id :ids){
             waiterMapper.deleteByPrimaryKey(id);
         }
+    }
+
+    @Override
+    public PageVM<Waiter> query(int page, int pageSize, Waiter waiter) {
+        List<Waiter> list = waiterExtendMapper.query(page,pageSize,waiter);
+        long count = waiterExtendMapper.count(waiter);
+        return new PageVM<>(page,pageSize,count,list);
     }
 }

@@ -10,6 +10,7 @@ import com.briup.apps.ej.dao.OrderLineMapper;
 import com.briup.apps.ej.dao.OrderMapper;
 import com.briup.apps.ej.dao.extend.OrderExtendMapper;
 import com.briup.apps.ej.service.IOrderService;
+import com.briup.apps.ej.utils.PageVM;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -47,7 +48,7 @@ public class OrderServiceImpl implements IOrderService {
         // 先保存订单
         Order o = new Order();
         o.setOrderTime(new Date().getTime());
-        o.setTotal(100.0);
+        o.setTotal(Double.valueOf(order.getOrderLines().get(0).getNumber()));
         o.setCustomerId(order.getCustomerId());
         o.setAddressId(order.getAddressId());
         orderMapper.insert(o);
@@ -75,5 +76,12 @@ public class OrderServiceImpl implements IOrderService {
         for(long id :ids){
             orderMapper.deleteByPrimaryKey(id);
         }
+    }
+
+    @Override
+    public PageVM<Order> queryPage(int page, int pageSize, Order order) {
+        List<Order> list = orderExtendMapper.queryPage(page,pageSize,order);
+        long count = orderExtendMapper.count(order);
+        return new PageVM<>(page,pageSize,count,list);
     }
 }
