@@ -6,6 +6,13 @@ import jdk.nashorn.internal.objects.annotations.Setter;
 import java.util.List;
 
 public class OrderExtend extends Order {
+    public static final String STATUS_WEIZHIFU = "未支付";
+    public static final String STATUS_WEIPAIDAN = "未派单";
+    public static final String STATUS_WEIFWU = "未服务";
+    public static final String STATUS_WEIQUEREN = "未确认";
+    public static final String STATUS_COMPLETE = "已完成";
+
+
     private Customer customer;
     private Waiter waiter;
     private Address address;

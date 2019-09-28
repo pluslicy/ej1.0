@@ -47,6 +47,8 @@ public class OrderServiceImpl implements IOrderService {
     public void save(OrderAndOrderLineVM order) throws Exception {
         // 先保存订单
         Order o = new Order();
+        // 目前默认为未服务
+        o.setStatus(OrderExtend.STATUS_WEIFWU);
         o.setOrderTime(new Date().getTime());
         o.setTotal(Double.valueOf(order.getOrderLines().get(0).getNumber()));
         o.setCustomerId(order.getCustomerId());

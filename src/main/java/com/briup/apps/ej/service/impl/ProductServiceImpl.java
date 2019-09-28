@@ -31,6 +31,13 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
+    public List<Product> findByCategoryId(long id) {
+        ProductExample example = new ProductExample();
+        example.createCriteria().andCategoryIdEqualTo(id);
+        return productMapper.selectByExample(example);
+    }
+
+    @Override
     public void saveOrUpdate(Product product) throws Exception {
         if(product.getId()!=null){
             productMapper.updateByPrimaryKey(product);

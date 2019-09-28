@@ -50,6 +50,13 @@ public class ProductController {
         return MessageUtil.success("删除成功");
     }
 
+    @GetMapping("findByCategoryId")
+    @ApiOperation("通过ID删除产品信息")
+    public Message findByCategoryId(@NotNull @RequestParam("id") Long id) throws Exception{
+        List<Product> list = productService.findByCategoryId(id);
+        return MessageUtil.success("success",list);
+    }
+
     @PostMapping("batchDelete")
     @ApiOperation("批量删除产品信息")
     public Message batchDelete(long[] ids) throws Exception{

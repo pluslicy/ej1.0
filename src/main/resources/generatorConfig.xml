@@ -5,7 +5,8 @@
 <!-- mybatis-generator的核心配置文件 -->
 <generatorConfiguration>
 
-  <classPathEntry location="D:\gg\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar" />
+  <!--<classPathEntry location="D:\gg\repository\mysql\mysql-connector-java\8.0.16\mysql-connector-java-8.0.16.jar" />-->
+  <classPathEntry location="/Users/lichunyu/springboot/repository/mysql/mysql-connector-java/8.0.16/mysql-connector-java-8.0.16.jar" />
   <context id="DB2Tables" targetRuntime="MyBatis3">
 
     <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
@@ -40,14 +41,15 @@
 
 
 	<!-- 映射配置 -->
-    <table tableName="ej_category" domainObjectName="Category" ></table>
-    <table tableName="ej_product" domainObjectName="Product" ></table>
-    <table tableName="ej_waiter" domainObjectName="Waiter" ></table>
-    <table tableName="ej_customer" domainObjectName="Customer" ></table>
-    <table tableName="ej_address" domainObjectName="Address" ></table>
+    <!---->
+    <!--<table tableName="ej_category" domainObjectName="Category" ></table>-->
+    <!--<table tableName="ej_product" domainObjectName="Product" ></table>-->
+    <!--<table tableName="ej_waiter" domainObjectName="Waiter" ></table>-->
+    <!--<table tableName="ej_customer" domainObjectName="Customer" ></table>-->
+    <!--<table tableName="ej_address" domainObjectName="Address" ></table>-->
     <table tableName="ej_order" domainObjectName="Order" ></table>
-    <table tableName="ej_order_line" domainObjectName="OrderLine" ></table>
-    <table tableName="ej_comment" domainObjectName="Comment" ></table>
+    <!--<table tableName="ej_order_line" domainObjectName="OrderLine" ></table>-->
+    <!--<table tableName="ej_comment" domainObjectName="Comment" ></table>-->
 
 
 	<!--
