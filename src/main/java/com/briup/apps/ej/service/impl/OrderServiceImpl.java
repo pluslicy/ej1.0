@@ -50,12 +50,18 @@ public class OrderServiceImpl implements IOrderService {
         // 目前默认为未服务
         o.setStatus(OrderExtend.STATUS_WEIFWU);
         o.setOrderTime(new Date().getTime());
-        o.setTotal(Double.valueOf(order.getOrderLines().get(0).getNumber()));
         o.setCustomerId(order.getCustomerId());
         o.setAddressId(order.getAddressId());
-        orderMapper.insert(o);
         // 再保存订单项
         List<OrderLine> list = order.getOrderLines();
+        double total = 0;
+        for(OrderLine ol : list) {
+            total += ol.getPrice() * ol.getNumber();
+        }
+        o.setTotal(Double.valueOf(total));
+
+        orderMapper.insert(o);
+
         for(OrderLine ol : list){
             // 维护订单项与订单之间的关系
             ol.setOrderId(o.getId());

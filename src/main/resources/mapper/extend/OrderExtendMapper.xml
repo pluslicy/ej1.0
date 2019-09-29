@@ -65,6 +65,7 @@
         o.order_time,
         o.total,
         o.customer_id,
+        o.status,
         o.waiter_id,
         o.address_id,
         c.id as c_id,
@@ -79,11 +80,14 @@
         a.area,
         a.address,
         a.telephone
-	from ej_order o,ej_customer c,ej_waiter w,ej_address a
+	from ej_order o
+	left join ej_customer c
+	on o.customer_id = c.id
+	left join ej_waiter w
+	on o.waiter_id = w.id
+	left join ej_address a
+	on o.address_id = a.id
     <where>
-      o.customer_id = c.id
-      AND o.waiter_id = w.id
-      AND o.address_id = a.id
       <if test="customerId!=null">
         AND c.id = #{customerId}
       </if>
@@ -101,6 +105,7 @@
     <id column="o_id" jdbcType="BIGINT" property="id" />
     <result column="order_time" jdbcType="BIGINT" property="orderTime" />
     <result column="total" jdbcType="DOUBLE" property="total" />
+    <result column="status" property="status" />
     <result column="customer_id" jdbcType="BIGINT" property="customerId" />
     <result column="waiter_id" jdbcType="BIGINT" property="waiterId" />
     <result column="address_id" jdbcType="BIGINT" property="addressId" />

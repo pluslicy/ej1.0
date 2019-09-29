@@ -42,12 +42,12 @@
 
 	<!-- 映射配置 -->
     <!---->
-    <!--<table tableName="ej_category" domainObjectName="Category" ></table>-->
+    <table tableName="ej_category" domainObjectName="Category" ></table>
     <!--<table tableName="ej_product" domainObjectName="Product" ></table>-->
     <!--<table tableName="ej_waiter" domainObjectName="Waiter" ></table>-->
     <!--<table tableName="ej_customer" domainObjectName="Customer" ></table>-->
     <!--<table tableName="ej_address" domainObjectName="Address" ></table>-->
-    <table tableName="ej_order" domainObjectName="Order" ></table>
+    <!--<table tableName="ej_order" domainObjectName="Order" ></table>-->
     <!--<table tableName="ej_order_line" domainObjectName="OrderLine" ></table>-->
     <!--<table tableName="ej_comment" domainObjectName="Comment" ></table>-->
 
