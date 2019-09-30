@@ -1,7 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.briup.apps.ej.dao.extend.ProductExtendMapper">
-    <select id="query" resultType="com.briup.apps.ej.bean.Product">
+    <select id="query" resultMap="com.briup.apps.ej.dao.ProductMapper.BaseResultMap">
+        select *
+        from ej_product As p
+        <where>
+            <if test="product.name != null">
+                p.name  like concat('%',#{product.name},'%')
+            </if>
+            <if test="product.description != null">
+                AND p.description like concat('%',#{product.description},'%')
+            </if>
+            <if test="product.price != null">
+                AND p.price like concat('%',#{product.price} ,'%')
+            </if>
+            <if test="product.status != null">
+                AND p.status like concat('%',#{product.status} ,'%')
+            </if>
+        </where>
+        limit ${page*pageSize},${pageSize}
+    </select>
+    <select id="queryProductCascadeCategory" resultMap="ProductCascadeCategoryResultMap">
         select *
         from ej_product As p
         <where>
@@ -38,4 +57,15 @@
             </if>
         </where>
     </select>
+    <select id="selectByPrimaryKey" resultMap="ProductCascadeCategoryResultMap">
+        select *
+        from ej_product
+        where id = #{id}
+    </select>
+
+    <resultMap id="ProductCascadeCategoryResultMap"
+               type="com.briup.apps.ej.bean.extend.ProductExtend"
+               extends="com.briup.apps.ej.dao.ProductMapper.BaseResultMap">
+        <association property="category" column="category_id" select="com.briup.apps.ej.dao.CategoryMapper.selectByPrimaryKey"/>
+    </resultMap>
 </mapper>

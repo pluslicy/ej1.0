@@ -2,7 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.briup.apps.ej.dao.extend.OrderExtendMapper">
 
-
     <select id="queryPage" resultType="com.briup.apps.ej.bean.Order">
         select *
         from ej_order As o
@@ -36,11 +35,15 @@
         c.realname as customerName,
         w.realname as waiterName,
         a.city as address
-    from ej_order o,ej_customer c,ej_waiter w,ej_address a
+    from ej_order o
+      left join ej_customer c
+      on o.customer_id = c.id
+      left join ej_waiter w
+      on o.waiter_id = w.id
+      left join ej_address a
+      on o.address_id = a.id
     <where>
-      o.customer_id = c.id
-      AND o.waiter_id = w.id
-      AND o.address_id = a.id
+
       <if test="customerId!=null">
         AND c.id = #{customerId}
       </if>
@@ -48,6 +51,7 @@
         AND w.id = #{waiterId}
       </if>
     </where>
+    order by o.order_time DESC
   </select>
   <resultMap id="orderVMResultMap" type="com.briup.apps.ej.bean.vm.OrderVM">
     <id column="o_id" jdbcType="BIGINT" property="orderId" />
@@ -95,7 +99,7 @@
         AND w.id = #{waiterId}
       </if>
     </where>
-
+    order by o.order_time DESC
   </select>
 
   <resultMap

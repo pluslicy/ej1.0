@@ -2,6 +2,7 @@ package com.briup.apps.ej.service.impl;
 
 import com.briup.apps.ej.bean.Product;
 import com.briup.apps.ej.bean.ProductExample;
+import com.briup.apps.ej.bean.extend.ProductExtend;
 import com.briup.apps.ej.dao.ProductMapper;
 import com.briup.apps.ej.dao.extend.ProductExtendMapper;
 import com.briup.apps.ej.service.IProductService;
@@ -28,6 +29,13 @@ public class ProductServiceImpl implements IProductService {
     public List<Product> findAll() {
         ProductExample example = new ProductExample();
         return productMapper.selectByExample(example);
+    }
+
+
+
+    @Override
+    public ProductExtend findById(long id) {
+        return productExtendMapper.selectByPrimaryKey(id);
     }
 
     @Override
@@ -66,6 +74,13 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public PageVM<Product> query(int page, int pageSize, Product product) {
         List<Product> list = productExtendMapper.query(page,pageSize,product);
+        long count = productExtendMapper.count(product);
+        return new PageVM<>(page,pageSize,count,list);
+    }
+
+    @Override
+    public PageVM<ProductExtend> queryProductCascadeCategory(int page, int pageSize, Product product) {
+        List<ProductExtend> list = productExtendMapper.queryProductCascadeCategory(page,pageSize,product);
         long count = productExtendMapper.count(product);
         return new PageVM<>(page,pageSize,count,list);
     }

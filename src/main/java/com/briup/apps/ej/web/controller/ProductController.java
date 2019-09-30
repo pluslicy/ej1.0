@@ -1,6 +1,7 @@
 package com.briup.apps.ej.web.controller;
 
 import com.briup.apps.ej.bean.Product;
+import com.briup.apps.ej.bean.extend.ProductExtend;
 import com.briup.apps.ej.service.IProductService;
 import com.briup.apps.ej.utils.Message;
 import com.briup.apps.ej.utils.MessageUtil;
@@ -32,10 +33,19 @@ public class ProductController {
     private IProductService productService;
 
     @GetMapping("findAll")
+    @ApiOperation("查询所有产品信息")
     public Message findAll(){
         List<Product> list = productService.findAll();
         return MessageUtil.success("success",list);
     }
+
+    @GetMapping("findById")
+    @ApiOperation("通过id查询产品信息")
+    public Message findById(@NotNull @RequestParam("id") Long id){
+        ProductExtend product = productService.findById(id);
+        return MessageUtil.success("success",product);
+    }
+
     @PostMapping("saveOrUpdate")
     @ApiOperation("保存或者更新产品信息")
     public Message saveOrUpdate(@Valid @ModelAttribute Product product) throws Exception{
@@ -77,6 +87,23 @@ public class ProductController {
         product.setPrice(price);
         product.setStatus(status);
         PageVM<Product> pageVM = productService.query(page,pageSize,product);
+        return MessageUtil.success("操作成功",pageVM);
+    }
+
+    @PostMapping("queryProductCascadeCategory")
+    @ApiOperation("分页查询产品信息级联栏目")
+    public Message queryProductCascadeCategory(@NotNull @RequestParam("page") Integer page,
+                         @NotNull @RequestParam("pageSize") Integer pageSize,
+                         @ApiParam("产品名称") @RequestParam(required = false) String name,
+                         @ApiParam("产品描述") @RequestParam(required = false) String description,
+                         @ApiParam("产品价格") @RequestParam(required = false) Double price,
+                         @ApiParam("产品状态") @RequestParam(required = false) String status) throws Exception{
+        Product product = new Product();
+        product.setName(name);
+        product.setDescription(description);
+        product.setPrice(price);
+        product.setStatus(status);
+        PageVM<ProductExtend> pageVM = productService.queryProductCascadeCategory(page,pageSize,product);
         return MessageUtil.success("操作成功",pageVM);
     }
 
