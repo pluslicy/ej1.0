@@ -1,5 +1,6 @@
 package com.briup.apps.ej.web.controller;
 
+import com.briup.apps.ej.bean.BaseUser;
 import com.briup.apps.ej.bean.Waiter;
 import com.briup.apps.ej.service.IWaiterService;
 import com.briup.apps.ej.utils.Message;
@@ -33,13 +34,13 @@ public class WaiterController {
     @GetMapping("findAll")
     @ApiOperation("查询所有服务员信息")
     public Message findAll(){
-        List<Waiter> list = waiterService.findAll();
+        List<BaseUser> list = waiterService.findAll();
         return MessageUtil.success("success",list);
     }
     @PostMapping("saveOrUpdate")
     @ApiOperation("保存或者更新服务员信息")
-    public Message saveOrUpdate(@Valid @ModelAttribute Waiter waiter) throws Exception{
-        waiterService.saveOrUpdate(waiter);
+    public Message saveOrUpdate(BaseUser baseUser) throws Exception{
+        waiterService.saveOrUpdate(baseUser);
         return MessageUtil.success("操作成功");
     }
 
@@ -56,6 +57,8 @@ public class WaiterController {
         waiterService.batchDelete(ids);
         return MessageUtil.success("批量删除成功");
     }
+
+    @Deprecated
     @PostMapping("query")
     @ApiOperation("分页查询员工信息")
     public Message query(@NotNull @RequestParam("page") Integer page,
@@ -67,7 +70,7 @@ public class WaiterController {
         Waiter waiter = new Waiter();
         waiter.setTelephone(telephone);
         waiter.setRealname(realname);
-        waiter.setIdcard(idcard);
+        waiter.setIdCard(idcard);
         waiter.setStatus(status);
         PageVM<Waiter> pageVM = waiterService.query(page,pageSize,waiter);
         return MessageUtil.success("操作成功",pageVM);

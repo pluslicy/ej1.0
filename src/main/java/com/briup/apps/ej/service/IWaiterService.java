@@ -1,14 +1,15 @@
 package com.briup.apps.ej.service;
 
+import com.briup.apps.ej.bean.BaseUser;
 import com.briup.apps.ej.bean.Waiter;
 import com.briup.apps.ej.utils.PageVM;
 
 import java.util.List;
 
 public interface IWaiterService {
-    List<Waiter> findAll();
+    List<BaseUser> findAll();
 
-    void saveOrUpdate(Waiter waiter) throws Exception;
+    void saveOrUpdate(BaseUser baseUser) throws Exception;
 
     void deleteById(long id) throws Exception;
 

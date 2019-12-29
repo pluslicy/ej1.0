@@ -1,6 +1,7 @@
 package com.briup.apps.ej.web.controller;
 
 import com.briup.apps.ej.bean.Order;
+import com.briup.apps.ej.bean.OrderLine;
 import com.briup.apps.ej.bean.extend.OrderExtend;
 import com.briup.apps.ej.bean.vm.OrderAndOrderLineVM;
 import com.briup.apps.ej.bean.vm.OrderVM;
@@ -8,7 +9,6 @@ import com.briup.apps.ej.service.IOrderService;
 import com.briup.apps.ej.utils.Message;
 import com.briup.apps.ej.utils.MessageUtil;
 import com.briup.apps.ej.utils.PageVM;
-import com.sun.org.apache.xpath.internal.operations.Or;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -80,5 +80,62 @@ public class OrderController {
         order.setTotal(total);
         PageVM<Order> pageVM = orderService.queryPage(page,pageSize,order);
         return MessageUtil.success("操作成功",pageVM);
+    }
+
+    @GetMapping("sendOrder")
+    @ApiOperation("派单")
+    public Message sendOrder(
+            @NotNull @RequestParam("waiterId") Long waiterId,
+            @NotNull @RequestParam("orderId") Long  orderId) throws Exception{
+        orderService.sendOrder(waiterId,orderId);
+        return MessageUtil.success("派单成功");
+    }
+
+    @GetMapping("takeOrder")
+    @ApiOperation("接单")
+    public Message takeOrder(
+            @NotNull @RequestParam("orderId") Long  orderId) throws Exception{
+        orderService.takeOrder(orderId);
+        return MessageUtil.success("接单成功");
+    }
+
+    @GetMapping("rejectOrder")
+    @ApiOperation("拒绝订单")
+    public Message rejectOrder(
+            @NotNull @RequestParam("orderId") Long  orderId) throws Exception{
+        orderService.rejectOrder(orderId);
+        return MessageUtil.success("操作成功");
+    }
+
+    @GetMapping("serviceCompleteOrder")
+    @ApiOperation("员工服务结束")
+    public Message serviceCompleteOrder(
+            @NotNull @RequestParam("orderId") Long  orderId) throws Exception{
+        orderService.serviceCompleted(orderId);
+        return MessageUtil.success("服务完成");
+    }
+
+    @GetMapping("confirmOrder")
+    @ApiOperation("确认订单")
+    public Message confirmOrder(
+            @NotNull @RequestParam("orderId") Long  orderId) throws Exception{
+        orderService.confirmOrder(orderId);
+        return MessageUtil.success("确认订单");
+    }
+
+    @GetMapping("cancelSendOrder")
+    @ApiOperation("取消派单")
+    public Message cancelSendOrder(
+            @NotNull @RequestParam("orderId") Long  orderId) throws Exception{
+        orderService.cancelSendOrder(orderId);
+        return MessageUtil.success("取消成功");
+    }
+
+    @GetMapping("getOrderLinesByOrderId")
+    @ApiOperation("通过订单编号查询订单项详情")
+    public Message getOrderLinesByOrderId(
+            @NotNull @RequestParam("orderId") Long  orderId) throws Exception{
+        List<OrderLine> list = orderService.getOrderLinesByOrderId(orderId);
+        return MessageUtil.success("取消成功",list);
     }
 }

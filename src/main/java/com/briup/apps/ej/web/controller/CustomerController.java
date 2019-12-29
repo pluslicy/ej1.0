@@ -1,5 +1,6 @@
 package com.briup.apps.ej.web.controller;
 
+import com.briup.apps.ej.bean.BaseUser;
 import com.briup.apps.ej.bean.Customer;
 import com.briup.apps.ej.service.ICustomerService;
 import com.briup.apps.ej.utils.Message;
@@ -29,14 +30,14 @@ public class CustomerController {
     @GetMapping("findAll")
     @ApiOperation("查询所有顾客信息")
     public Message findAll(){
-        List<Customer> list = customerService.findAll();
+        List<BaseUser> list = customerService.findAll();
         return MessageUtil.success("success",list);
     }
 
     @PostMapping("saveOrUpdate")
     @ApiOperation("保存或者更新顾客信息")
-    public Message saveOrUpdate(@Valid @ModelAttribute Customer customer) throws Exception{
-        customerService.saveOrUpdate(customer);
+    public Message saveOrUpdate(@Valid @ModelAttribute BaseUser baseUser) throws Exception{
+        customerService.saveOrUpdate(baseUser);
         return MessageUtil.success("操作成功");
     }
 
@@ -47,6 +48,7 @@ public class CustomerController {
         return MessageUtil.success("删除成功");
     }
 
+    @Deprecated
     @PostMapping("query")
     @ApiOperation("分页查询顾客信息")
     public Message query(@NotNull @RequestParam("page") Integer page,

@@ -85,18 +85,18 @@
         a.address,
         a.telephone
 	from ej_order o
-	left join ej_customer c
+	left join base_user c
 	on o.customer_id = c.id
-	left join ej_waiter w
+	left join base_user w
 	on o.waiter_id = w.id
 	left join ej_address a
 	on o.address_id = a.id
     <where>
       <if test="customerId!=null">
-        AND c.id = #{customerId}
+        AND o.customer_id = #{customerId}
       </if>
       <if test="waiterId != null">
-        AND w.id = #{waiterId}
+        AND o.waiter_id = #{waiterId}
       </if>
     </where>
     order by o.order_time DESC
@@ -132,5 +132,6 @@
       <result column="address" jdbcType="VARCHAR" property="address" />
       <result column="telephone" jdbcType="VARCHAR" property="telephone" />
     </association>
+    <!--<collection property="orderLines" column="order_id" select="order"-->
   </resultMap>
 </mapper>

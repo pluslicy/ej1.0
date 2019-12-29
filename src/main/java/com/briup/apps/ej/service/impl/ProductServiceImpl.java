@@ -50,7 +50,7 @@ public class ProductServiceImpl implements IProductService {
         if(product.getId()!=null){
             productMapper.updateByPrimaryKey(product);
         } else {
-//            address.setStatus("正常");
+            product.setStatus("正常");
             productMapper.insert(product);
         }
     }
