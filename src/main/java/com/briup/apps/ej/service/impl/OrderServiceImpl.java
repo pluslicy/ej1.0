@@ -37,13 +37,14 @@ public class OrderServiceImpl implements IOrderService {
     }
 
     @Override
-    public List<OrderExtend> query(Long customerId, Long waiterId) {
-        return orderExtendMapper.query(customerId,waiterId);
+    public List<OrderExtend> query(Long customerId, Long waiterId,String status) {
+        return orderExtendMapper.query(customerId,waiterId,status);
     }
 
     @Override
     public List<Order> findAll() {
         OrderExample example = new OrderExample();
+        example.setOrderByClause("`order_time` DESC");
         return orderMapper.selectByExample(example);
     }
 
@@ -162,6 +163,7 @@ public class OrderServiceImpl implements IOrderService {
     @Override
     public List<OrderLine> getOrderLinesByOrderId(long orderId) {
         OrderLineExample example = new OrderLineExample();
+        example.setOrderByClause("`order_time` DESC");
         example.createCriteria().andOrderIdEqualTo(orderId);
         return orderLineMapper.selectByExample(example);
     }

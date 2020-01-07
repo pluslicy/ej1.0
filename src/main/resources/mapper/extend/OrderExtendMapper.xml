@@ -2,7 +2,8 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.briup.apps.ej.dao.extend.OrderExtendMapper">
 
-    <select id="queryPage" resultType="com.briup.apps.ej.bean.Order">
+    <!--<select id="queryPage" resultType="com.briup.apps.ej.bean.Order">-->
+    <select id="queryPage" resultMap="com.briup.apps.ej.dao.OrderMapper.BaseResultMap">
         select *
         from ej_order As o
         <where>
@@ -12,7 +13,14 @@
             <if test="order.total != null">
                 AND o.total like concat('%',#{order.total},'%')
             </if>
+            <if test="order.status != null">
+                AND o.status like concat('%',#{order.status},'%')
+            </if>
+            <if test="order.customerId != null">
+                AND o.customer_id = #{order.customerId}
+            </if>
         </where>
+        order by order_time DESC
         limit ${page*pageSize},${pageSize}
     </select>
     <select id="count" resultType="long">
@@ -24,6 +32,12 @@
             </if>
             <if test="order.total != null">
                 AND o.total like concat('%',#{order.total},'%')
+            </if>
+            <if test="order.status != null">
+                AND o.status like concat('%',#{order.status},'%')
+            </if>
+            <if test="order.customerId != null">
+                AND o.customer_id = #{order.customerId}
             </if>
         </where>
     </select>
@@ -97,6 +111,9 @@
       </if>
       <if test="waiterId != null">
         AND o.waiter_id = #{waiterId}
+      </if>
+      <if test="status != null">
+        AND o.status like concat('%',#{status},'%')
       </if>
     </where>
     order by o.order_time DESC

@@ -26,7 +26,7 @@ public interface IOrderService {
      * @Author: charles 
      * @Date: 2019-09-30 
      */ 
-    List<OrderExtend> query(Long customerId,Long waiterId);
+    List<OrderExtend> query(Long customerId,Long waiterId,String status);
     
     /** 
      * @Description: 查询所有 

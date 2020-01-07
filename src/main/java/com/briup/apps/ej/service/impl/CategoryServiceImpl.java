@@ -25,7 +25,9 @@ public class CategoryServiceImpl implements ICategoryService {
     private CategoryExtendMapper categoryExtendMapper;
     @Override
     public List<Category> findAll() {
-        return categoryMapper.selectByExample(new CategoryExample());
+        CategoryExample example = new CategoryExample();
+        example.setOrderByClause("`num` ASC");
+        return categoryMapper.selectByExample(example);
     }
 
     @Override

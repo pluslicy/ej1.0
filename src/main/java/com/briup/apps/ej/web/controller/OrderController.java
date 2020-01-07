@@ -37,8 +37,8 @@ public class OrderController {
 
     @GetMapping("query")
     @ApiOperation("查询订单信息，并且订单级联关键的属性")
-    public Message query(Long customerId,Long waiterId){
-        List<OrderExtend> list = orderService.query(customerId,waiterId);
+    public Message query(Long customerId,Long waiterId,String status){
+        List<OrderExtend> list = orderService.query(customerId,waiterId,status);
         return MessageUtil.success("success",list);
     }
 
@@ -72,12 +72,16 @@ public class OrderController {
     @PostMapping("queryPage")
     @ApiOperation("分页查询订单信息")
     public Message queryPage(@NotNull @RequestParam("page") Integer page,
-                         @NotNull @RequestParam("pageSize") Integer pageSize,
+                             @NotNull @RequestParam("pageSize") Integer pageSize,
                          @ApiParam("订单时间") @RequestParam(required = false) Long orderTime,
-                         @ApiParam("订单数量") @RequestParam(required = false) Double total) throws Exception{
+                         @ApiParam("订单数量") @RequestParam(required = false) Double total,
+                         @ApiParam("订单状态") @RequestParam(required = false) String status,
+                         @ApiParam("顾客id") @RequestParam(required = false) Long customerId) throws Exception{
         Order order = new Order();
         order.setOrderTime(orderTime);
         order.setTotal(total);
+        order.setStatus(status);
+        order.setCustomerId(customerId);
         PageVM<Order> pageVM = orderService.queryPage(page,pageSize,order);
         return MessageUtil.success("操作成功",pageVM);
     }
