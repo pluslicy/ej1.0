@@ -32,6 +32,11 @@ public class OrderServiceImpl implements IOrderService {
     private BaseUserMapper baseUserMapper;
 
     @Override
+    public OrderExtend findOrderDetailsById(long id) {
+        return orderExtendMapper.selectById(id);
+    }
+
+    @Override
     public List<OrderVM> queryBasic(Long customerId, Long waiterId) {
         return orderExtendMapper.queryBasic(customerId, waiterId);
     }
@@ -134,17 +139,19 @@ public class OrderServiceImpl implements IOrderService {
 
     @Override
     public void rejectOrder(long orderId) throws Exception {
-        //更新订单状态为待派单
+        // 更新订单状态为待派单
         changeOrderStatus(orderId,OrderExtend.STATUS_DAIPAIDAN);
     }
 
     @Override
     public void serviceCompleted(long orderId) throws Exception {
+        // 更新订单状态为待确认
         changeOrderStatus(orderId,OrderExtend.STATUS_DAIQUEREN);
     }
 
     @Override
     public void confirmOrder(long orderId) throws Exception {
+        // 更新订单状态为已完成
         changeOrderStatus(orderId,OrderExtend.STATUS_COMPLETE);
     }
 

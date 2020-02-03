@@ -10,6 +10,14 @@ import com.briup.apps.ej.utils.PageVM;
 import java.util.List;
 
 public interface IOrderService {
+    /**
+     * @Description:
+     * @Param: [id]
+     * @return:
+     * @Author: charles
+     * @Date: 2020-01-07
+     */
+    OrderExtend findOrderDetailsById(long id);
     /** 
      * @Description: 普通条件查询
      * @Param: [customerId, waiterId] 

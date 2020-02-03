@@ -8,6 +8,8 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 
 public interface OrderExtendMapper {
+    OrderExtend selectById(long id);
+
     List<OrderExtend> query(
             @Param("customerId") Long customerId,
             @Param("waiterId") Long waiterId,

@@ -28,6 +28,13 @@ public class OrderController {
     @Autowired
     private IOrderService orderService;
 
+    @GetMapping("findById")
+    @ApiOperation("根据id查询订单的详细信息")
+    public Message findById(long id){
+        OrderExtend orderVM = orderService.findOrderDetailsById(id);
+        return MessageUtil.success("success",orderVM);
+    }
+
     @GetMapping("queryBasic")
     @ApiOperation("查询订单信息，返回列表数据")
     public Message queryBasic(Long customerId,Long waiterId){
@@ -124,7 +131,7 @@ public class OrderController {
     public Message confirmOrder(
             @NotNull @RequestParam("orderId") Long  orderId) throws Exception{
         orderService.confirmOrder(orderId);
-        return MessageUtil.success("确认订单");
+        return MessageUtil.success("确认订单成功");
     }
 
     @GetMapping("cancelSendOrder")
