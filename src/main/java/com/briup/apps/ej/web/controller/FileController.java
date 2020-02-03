@@ -45,7 +45,7 @@ public class FileController {
     }
 
 
-    @ApiOperation(value="文件上传",notes="文件大小限制为3M,附件服务器地址：http://134.175.154.93:8888 。 图片地址为 【服务器地址/groupName/id】,例如 http://134.175.154.93:8888/group1/M00/00/19/rBAACV21epyAI-4vAAABwSILlJ0364.txt")
+    @ApiOperation(value="文件上传",notes="文件大小限制为3M,附件服务器地址：http://134.175.100.63:8686 。 图片地址为 【服务器地址/groupName/id】,例如 http://134.175.100.63:8686/group1/M00/00/19/rBAACV21epyAI-4vAAABwSILlJ0364.txt")
     @PostMapping("upload")
     public Message upload(
             @RequestParam("file") MultipartFile file, HttpServletRequest req

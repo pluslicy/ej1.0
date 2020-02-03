@@ -22,21 +22,21 @@ import org.springframework.util.ResourceUtils;
  * Reason:	 TODO ADD REASON. <br/>
  * Date:     2018年9月12日 下午10:08:14 <br/>
  * @author   lichunyu
- * @version  
+ * @version
  * @since    JDK 1.6
- * @see 	 
+ * @see
  */
 public class FastDFS {
 	static {
 		// 初始化配置文件
 		try {
-//			ClientGlobal.init(ResourceUtils.getFile("classpath:fdfs_client.conf").getAbsolutePath());
-			ClientGlobal.init("/home/charles/fdfs_client.conf");
+			ClientGlobal.init(ResourceUtils.getFile("classpath:fdfs_client.conf").getAbsolutePath());
+//			ClientGlobal.init("/home/charles/fdfs_client.conf");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * 删除fastDFS服务器上的图片
 	 * */
@@ -54,9 +54,9 @@ public class FastDFS {
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new Exception(e.getMessage());
-		}		
+		}
 	}
-	
+
 	/**
 	 * 上传fastDFS服务器上的图片
 	 * */
